@@ -1,0 +1,22 @@
+so basically the idea is simple,looks at the features and tries to figure out the probability that something belongs to a class. like "is this a 0 or a 1?". 
+it spits out a number between 0 and 1, and if it's above 0.5 it says yes, below 0.5 it says no. that's it
+it draws a line (or in higher dimensions, a plane) that separates your two classes.
+ it's not finding the nearest neighbors like knn does, it's more like "let me learn a formula that maps your inputs to a yes or no"
+
+the C thing is the main hyperparameter we tuned. C controls how strict or chill the model is
+small C (like 0.01) → model is very regularized, meaning it keeps the weights small and doesn't overfit, but might underfit
+big C (like 100) → model trusts the training data a lot more, less regularization, can overfit
+so we tried [0.01, 0.1, 1, 10, 100] and let cross validation pick the best one based on f1 score, same way we picked the best k in knn
+how we used it here — literally the same pipeline as knn:
+
+loop over C values
+for each C, do cross validation on the training set
+track the best C by f1
+retrain on the full training set with that best C
+evaluate on the test set
+
+the model itself is just different under the hood. knn was lazy (memorizes data, predicts at test time),
+ logistic regression actually learns weights during training and then uses those to predict — so it's faster at prediction time
+
+tldr: logistic regression = learns a decision boundary from the data, C = how much you let it trust the training data, 
+and we just swapped it in where knn was with the same exact structure
