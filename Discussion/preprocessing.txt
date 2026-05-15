@@ -1,0 +1,8 @@
+The dataset preprocessing phase included handling missing values,
+encoding categorical variables, feature scaling, and stratified train-test splitting.
+Numeric missing values were replaced using the mean, while categorical missing values
+were replaced using the mode.
+Label Encoding was applied to categorical features.
+Since the dataset was imbalanced, StratifiedKFold cross-validation and stratified splitting
+were used to preserve the class distribution of withdrawn and non-withdrawn students across
+training and testing sets.
